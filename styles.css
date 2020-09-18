@@ -1,0 +1,768 @@
+/*#######################################################################################################
+								Página resposive con Media Queries
+#######################################################################################################*/
+
+							/* Fuentes que cargadas para usar después */
+/* General */
+@font-face{
+  font-family: papyrus;
+  src: url(nyala.ttf);
+}
+
+@font-face{
+  font-family: Cheetos13;
+  src: url(papyrus.ttf);
+}
+
+/* Logo */
+@font-face{
+  font-family: "Chronic Normal";
+  src: url(chronicnormal.ttf);
+}
+
+/* Título de nota principal */
+@font-face{
+  font-family: "Chronic Cosmos";
+  src: url(chroniccosmos.ttf);
+}
+
+/* Noticia 1 */
+@font-face{
+  font-family: "Scooby Doo";
+  src: url(scoobydoo.ttf);
+}
+
+/* Noticia 2 */
+@font-face{
+  font-family: "P&F Regular";
+  src:url(pfregular.ttf);
+}
+
+/* Noticia 3 */
+@font-face{
+  font-family: "Gandul Matheng";
+  src: url(gandulmatheng.ttf);
+}
+
+
+
+
+/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+									Estilos estructurales responsivos
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+/* Paso 1: Reseteamos estilos del navegador */
+*{
+  margin: 0px;
+  padding: 0px;
+  list-style: none;
+  text-decoration: none;
+  font-family: papyrus;
+  /* Esta propiedad hace que el valor del borde y el relleno sean parte de su caja */
+  box-sizing: border-box;
+}
+
+
+
+/* Paso 2: Flotamos las columnas encargadas del responsive (contenedoras) a la izquierda.
+...........Declaramos un relleno para éstas, ya que si necesitamos introducir alguna caja sin contenido, esta debe tener por lo menos un relleno para que no se salte (desaparezca del flujo) al momento de aplicar la propiedad float. */
+[class*="colSect_"]{
+  float: left;
+  padding: .1px;
+  /* border: 1px dashed #fff;  Referencia para ver maquetado */
+}
+
+
+
+/* Paso 3: Colocamos un margin:auto; para que el contenedor se centre en la página.
+			a. Declaramos un ancho para el contenedor relativo al "body", que es a su vez relativo a la ventana del navegador, de 100%.
+			b. Declaramos una height:auto; para que la altura se ajuste (extienda) conforme el espacio que necesite   */
+.container{
+ /* Este posicionamiento no parecen importante, sólo para dar una referencia a posicionamientos absolutos dentro del contenedor. Podemos quitarlo y no afectaría ne nada el flujo del documento. */
+  position: relative;
+  margin:auto;
+  width: 100%;
+  height: auto;
+}
+
+
+
+/* Paso 4: Declaramos un margen:auto; para cada columna, esto hará que ésta se centre en en contenedor.
+			a. Declaramos un ancho para cada columna relativo al contenedor, que éste es relativo al "body" y éste a su vez es relativo a la ventana del navegador, del 100%.
+			b. Declaramos una height:auto; para que la altura se ajuste (extienda) conforme el espacio que necesite.
+			c. Como las cajas han sido flotadas y han salido del flujo del contenido y del contenedor "row", necesitamos limpiar su "rastro", para lo que podemos aplicar: [Las columnas dentro de una fila estan flotando a la izquierda, y por lo tanto se toman fuera del fluo de la página, y otros elementos serán colocados como si no fueran de las columnas, para evitar esto se añade un estilo que despeje o limpie al flujo] clear:both; que le regresa su contenedor al elemento flotado y ajusta su altura(esto gracias al height:auto previamente establecido) al tamaño que necesita; overflow:hidden; que igual regresa el contenedor a los elementos contenidos flotados y, como también se le asigno un height:auto; éste no tinene la necesidad de ocultar el contenido ya que no hay una altura establecida que ponga un límite, overflow obliga a calcular el espacio original que está ocupando su caja; y display:table; que de igual forma regresa el contenedor a los elementos contenidos dandoles un lugar exáto para flotar (su celda), como la tabla se adapta al navegador obtiene el efecto responsive y se extiende hasta cubrir todo el contenido. */
+.row{
+ /* Este posicionamiento no parecen importante, sólo para dar una referencia a posicionamientos absolutos dentro del contenedor columna. Podemos quitarlo y no afectaría ne nada el flujo del documento. */
+  position: relative;
+  margin: auto;
+  width: 100%;
+  height: auto;
+  /*clear: both;*/
+  /*display: table;*/
+  overflow: hidden;
+  /* border: red solid 1px;  Referencia para ver maquetado */
+}
+
+
+
+
+/*@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+									Estilos estructurales y diseño
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@*/
+
+/*======================================================================================================
+										Estilos Globales
+======================================================================================================*/
+
+/* 1°: Declaramos un fondo de la página que vaya desde el negro al azul, y una letra de color blanco general para toda la página. */
+body{
+  background: var(--background-one);
+  color: #fff;
+}
+
+
+
+/*======================================================================================================
+										SECCIÓN 1: CABECERA
+======================================================================================================*/
+
+/* LOGO */
+
+	/* Paso 1: Establecemos las características de la fuente dentro del apartado "Logo".
+				a. Declaramos font-style, font-size, (line-height) y font-family. En ese orden.
+				a. Declaramos la alineación del texto.
+................[line-height le da altura por arriba y por abajo a la caja que contiene el enlace, por 					ende también a la columna contenedora, esto, junto con el hecho de que la fuente asigna un
+				espacio supeiror extra {defecto de la fuente} hará parecer que tiene relleno, pero no, NO TIENE RELLENO]. [Recordar que gracias a la propiedad box-sizing: border-box; los bordes y espacios podrán modificar, pero éstos estaran dentro de los lilmites de sus medidas ya sean relativas o absolutas, en caso de los bordes: los tamaños incrementan pero se van hacia dentro de la caja; con los rellenos, estos modificaran el aspecto de relleno hasta que el tamaño de su contenedor se lo permita, si las medidas llegasen a rebasar los límites el tamaño de la caja no se afectará y no aruinará el maquetado. Es como al poner cierta medida a los contenedos, esté sirviera también como un "max" para el tamaño del contenido]. [Notar el efecto que ocurre cuando incrementamos en demasia los bordes y los rellenos; los rellenos pueden sacar a los elementos anidados del flujo contal de respetar las medidas que ya se han establecido, sean relativas o absolutas.]
+................[Los estilos que declaremos a la fuente aquí afectan a todo el contenido, menos
+				font-family que no afecta al vínculo en que encerramos el texto del logo. Podemos comprovar esto agregando texto dentro de #logo, pero fuera del vínculo (a)]*/
+header #logo{
+  font: italic 50px/60px "Chronic Normal";
+  text-align: center;
+}
+
+
+
+	/* Paso 2: Especificamos la familia de la fuente del enlace, ya que como se mencionó anteriormente no se ha aplicado con la declaración anteiror.
+				b. Cambiamos el color del enlace.
+				c. Le damos una apariencia de brillo a las letras del enlace, ésto se logra jugando como un mismo color y la función rgba en la propiedad "text-shadow". */
+header #logo a.secondLogo{
+  font-family: "Chronic Normal";
+  color: #fff;
+  text-shadow: 0 0 5px #FF600A, 0 0 5px #FF600A, 0 0 5px #FF600A,
+			   0 0 10px #FF600A, 0 0 15px #FF600A, 0 0 20px #FF600A,
+			   0 0 25px #FF600A, 0 0 30px #FF600A, 0 0 35px #FF600A;
+}
+
+
+
+
+/* IMÁGENES ENLACE A REDES SOCIALES */
+
+	/* Paso 1: Establecemos un relleno superior para el contenedor de las imágenes. */
+header .iconsCont{
+  padding-top: 20px;
+}
+
+
+
+	/* Paso 2: Declaramos un tamaño para las imágenes de las redes sociales del 70% relativo a su contenedor. */
+[src*="irs"]{
+  width:70%;
+}
+
+
+
+	/* Paso 3: Establecemos un filtro para cuando el cursor se pociocioné encima de las imágenes. */
+header img:hover{
+   filter: blur(1px);
+}
+
+
+
+
+/*======================================================================================================
+										SECCIÓN 2: BARRA DE NAVEGACIÓN
+======================================================================================================*/
+
+/* Paso 1: Centramos el contenido de las opciones */
+nav ul li{
+  text-align: center;
+}
+
+
+
+/* Paso2: Cambiamos la forma en la que se presentan los vínculos de las opciones (li), con display:block; para que se expanda por todo el li.
+			b. Modificamos el fondo.
+			c. Declaramos el grosor de las letras como grueso.
+			d. Cambiamos el color de las letras.
+			e. Declaramos la altura entre cada línea para centrar el texto verticalmente.
+			f. Declaramos un margen para dar espacio entre cada caja. */
+nav ul li a{
+  display: block;
+  background: var(--buttons);
+  font-weight: 900;
+  color: #000;
+  line-height: 3em;
+  margin: 5px;
+  border-radius: 4px;
+}
+
+
+/* Paso 3: Cada que el usuario pase el puntero sobre un vínculo, que se encunetre dentro de una opción (li), que a su vez se encuentre dentro de una lista, dentro de la barra del elemento <nav>, las cajas de los enlaces tendrán:
+			a. Un fondo que va del color azul, pasa por un tipo de gris, y culmina con dos tipos de rosa.
+			b. Un efecto de aumento de tamaño, como si los elementos fuesen empujados fuera del monitor. [Las tres declaraciones son lo mismo pero cada una garantiza el soporte para la mayoría de los mavegadores]*/
+nav ul li a:hover{
+  background: var(--buttons-hover);
+  -webkit-transform: scale(1.03);
+  -ms-transform: scale(1.03);
+  transform: scale(1.03);
+}
+
+
+
+/* Paso 4: Cuando el usuario precione dichos enlaces, el fondo cambiará de su color original a blanco. Este efecto es casi imperceptible porque ocurre muy rápido, pero si se deja precionado el cursor sobre el enlace se pueden apreciar los cambios que aplica esta declaración. */
+nav ul li a:active{
+  background: rgba(255,255,255, 1);
+}
+
+
+
+
+/*======================================================================================================
+										SECCIÓN 3: BARRA DE NOTICIAS
+======================================================================================================*/
+
+/* Estilos generales */
+
+	/* Paso 1: Centramos todo lo que esté dentro del contenedor de las noticias */
+#news {
+  text-align: center;
+  padding: 20px;
+}
+
+
+
+	/* Paso 2: Establecemos un tamaño para las imágenes (éste puede ser relativo o fijo, px o em, %; pero cada unidad cuenta con sus propias peculiaridades, es buena idea experimentar con cada una ellas.).
+				b. Establecemos un efecto para que parezca que las imágenes están encerradas dentro de un circulo con border-radious: 100%;. (Si ponemos las medidas como porcentajes surje un efecto visualmente interesante).
+				c. Establecemos un relleno para cada imagen de 1em. [Éste, entre más amplio sea, más reducirá el tamaño de la imagen, por la propiedad que incluye rellenos y bordes dentro de la caja.], (ésta también puede ser cualquier unidad). */
+#news img{
+  width: 16em;
+  height: 16em;
+  border-radius: 100%;
+  padding: 1em;
+}
+
+
+
+	/* Paso 3: Establecemos un relleno para los títulos de las noticias. [Éste no afectará el tamaño de la imagen] (Puede tener cualquier unidad de medida), [Tener cuidado ya que también se le aplica la propiedad que incluye el relleno y el margen dentro de la caja]. */
+#news h1{
+  padding: .1em;
+}
+
+
+
+	/* Paso 4: Establecemos los rellenos para los párrafos de las descripciones de las imagenes. */
+#news p{
+  padding: .5em 2em;
+  font-size: 20px;
+}
+
+details {
+  border: none;
+  text-align: center;
+  list-style: none;
+}
+
+summary::-webkit-details-marker {
+  display: none;
+}
+
+summary:before {
+  background: #000;
+  border-radius: 5px;
+  content: '+';
+  color: #fff;
+  /*float: left;*/
+  font-size: 1.5em;
+  font-weight: bold;
+  margin: -5px 10px 0 0;
+  text-align: center;
+  width: 25px;
+}
+
+details[open] summary:before {
+  content: '-';
+}
+
+summary {
+  cursor: pointer;
+}
+
+.soAmI{
+  color: #79F0F7;
+}
+
+.soAmI, .vrsG, .aOneP {
+  /*font-family: 'Lucida Calligraphy';*/
+  /*font-size: 14px;*/
+}
+
+.vrsG{
+  color: yellow;
+}
+
+.aOneP{
+  color: orange;
+}
+
+
+
+
+/* Estilos personalizados */
+
+	/* Noticia 1 */
+		/* Paso 1: Agregamos una fuente especial para el título de la noticia.
+					b. Agregamos un color especial al título de la noticia.
+					c. Agregamos un estilo de sombra para el título de la noticia. */
+
+nav h1.new_1Ti {
+  font: 45px "Scooby Doo";
+  color: #6D2B8E;
+  text-shadow: 0 0 5px #07F700, 0 0 10px #07F700;
+}
+
+
+
+	/* Noticia 2 */
+		/* Paso 1: Agregamos una fuente especial para el título de la noticia. */
+nav h1.new_2Ti {
+  font: 50px "P&F Regular";
+}
+
+
+
+	/* Noticia 3 */
+		/* Paso 1: Agregamos una fuente especial para el título de la noticia.
+					b. Agregamos un estilo de sombra para el título de la noticia. */
+nav h1.new_3Ti {
+  font: 40px "Chronic Cosmos";
+  text-shadow: 0 0 3px #BD1C7E, 0 0 3px #BD1C7E, 0 0 3px #BD1C7E, 0 0 3px #BD1C7E,
+				 0 0 3px #BD1C7E, 0 0 3px #BD1C7E;
+}
+
+
+
+
+/*======================================================================================================
+									SECCIÓN 4: CONTENIDO PRINCIPAL
+======================================================================================================*/
+
+/* Enlaces laterales a la izquierda */
+
+	/* Paso 1: Establecemos un color de fondo para las opciones (li) de la lista (ul) que vaya de un azul cristalino a un   zul casi verde, pasando por un azul agua.
+				b. Establecemos un estilo para las opciones.
+				c. Para poder ver el estilo anterior declaramos que esté adentro de la opción (li).
+				d. Establecemos un relleno que puede tener cualquier unidad.
+				e. Damos un margen que se aplica a cada opción (li), puede tener cualquier unidad. */
+
+#content aside#left ul li.redSky{
+  background: var(--buttons);
+  list-style: square;
+  list-style-position: inside;
+  padding: .5em;
+  margin: .4em .7em;
+  border-radius: 4px;
+}
+
+
+
+	/* Paso 2: Establecemos un grosor para los enlaces dentro de las opciones de lista de tipo grueso.
+				b. También les damos un color, a los enlaces, de color negro. */
+#content aside ul li a{
+  font-weight: 900;
+  color: #000;
+}
+
+
+
+
+/* Nota principal central */
+
+	/* Paso 1: Asignamos una fuente especial para el título.
+				b. Establecemos un margin en cualqueir unidad de medida que queramos, como el título está dentro de un elemento ya delimitado y con la regla que incluye todo dentro de su caja, éste no podrá dañar el maquetado. [Si analizamos la caja del título, podremos observar que la fuente tiene un error que añade un espacio por defecto en su parte superior].
+				c. Centramos el título con respecto a su espacio central asinado en la página. */
+#content article h1{
+  font: 35px "Chronic Cosmos";
+  margin: 0 0 12px 15px;
+  padding: 2em 0 2em 0;
+  text-align: center;
+}
+
+#content article h1 span{
+  font: 20px "Chronic Cosmos";
+  margin: 0 0 12px 15px;
+  padding: 2em 0 2em 0;
+  text-align: center;
+}
+
+
+.texto {
+  color: #fff;
+  font-size: 20px;
+  padding: 0 3em 1em 3em;
+  text-align: justify;
+  text-indent: 2em;
+  font-style: italic;
+}
+
+
+
+/* Formulario lateral derecho */
+
+	/* Paso 1: Centramos la indicación principal del formulario.
+				b. Asignamos un fondo para la indicación, la cual se está en una etiqueta de título.
+				c. Cambiamos el color de la letra.
+				d. Establecemos un margen.
+				e. Tratamos de centrar el texto declarando una altura entre lineas. (cualquier medida) */
+#content #form h1.redSky1{
+  text-align: center;
+  background: var(--buttons);
+  color: #000;
+  margin: 10px;
+  line-height: 2em;
+  border-radius: 4px;
+}
+
+#content #form h1.bluSky11{
+  text-align: center;
+  background: var(--buttons-princ);
+  color: #000;
+  margin: 10px;
+  line-height: 2em;
+  border-radius: 4px;
+}
+
+
+
+	/* Paso 2: Asignamos un margen al formulario para darle estética en la página.  */
+form{
+  margin: 10px
+}
+
+	/* Paso 3: Asignamos un largo del 100%, relativo al contenedor, a las entradas de datos.
+				b. Asignamos un relleno. (cualquier medida).
+				c. Asignamos un margen. */
+#content #form input{
+  width: 100%;
+  padding: 1em;
+  margin: 5px 0;
+  border-radius: 4px;
+}
+
+
+
+	/* Paso 4: Damos color al botón que envía la información. */
+#content #form input[type="submit"]{
+  border: 1px solid #1EC4E8;
+}
+
+
+
+
+/*======================================================================================================
+										SECCIÓN 5: PIE DE PÁGINA
+======================================================================================================*/
+	
+/* Paso 1: Establecemos relleno al contenedor. */
+footer{
+  padding: 20px 10px;
+}
+
+
+
+/* Paso 2: Le otorgamos un fondo al elemento contenido dentro del "footer".
+			b. Centramos el contenido.
+			c. Asignamos un color al texto del contenido.
+			d. Declaramos un espacio entre líneas para centrar el texto verticalmente. */
+footer div.docero {
+  background: var(--buttons);
+  text-align: center;
+  color: #000;
+  line-height: 50px;
+  border-radius: 4px;
+}
+
+footer div.tree2 {
+  background: var(--buttons-princ);
+  text-align: center;
+  color: #000;
+  line-height: 50px;
+  border-radius: 4px;
+}
+
+
+/*&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&
+											MEDIA QUERIES
+&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&*/
+
+/* Con las siguientes podemos trabajar cada aspecto en determinada resolución. Cada que la página se abre en uno de los dispositivos con la resolución indicada en cada regla @media, las resoluciones actuan. Esto es una trbajo en conjunco con las clases en las etiquetas HTML. */
+
+
+.verse31 {
+  font-size: 20px;
+  padding: 0 0 1em 0;
+  text-align: center;
+}
+
+::selection {
+  color: #f00;
+}
+
+span.bfp1::selection {
+  color: #f00;
+}
+
+:root{
+  --buttons: linear-gradient(#FF600A, #C4021A);
+  --buttons-hover: linear-gradient(#ECBA1B, #CF9C3B, #E97B1F, #E56800, #E50D0D, #E50D0D, #E50D0D);
+  --background-one: linear-gradient(#000 ,#2A2927);
+
+  --buttons-princ: linear-gradient(#03C2EA, #81CDE3, #A8F8F6);
+  --buttons-hover-princ: linear-gradient(#007AC2, #7C97C2, #CBA7AF, #E5B1A3);
+  --background-princ: linear-gradient(#000, #000, #000, #000, #000, #000, #000, #000, #000, #0000FE);
+}
+
+.pacas {
+  font-style: italic;
+  text-shadow: 3px 3px 8px #fff;
+}
+
+.pacas::selection {
+  text-shadow: 3px 3px 8px #f00;
+}
+
+.special312 {
+  padding: 0 0 4em 0;
+  font-size: 22px;
+}
+
+@font-face{
+  font-family: makapaksasas;
+  src: url(regular.ttf);
+}
+
+.titleUnon {
+  color: red;
+  font: 35px makapaksasas;
+  margin: 0 0 12px 15px;
+  padding: 2em 0 2em 0;
+  text-align: center;
+}
+
+.princLogo {
+  font-family: "Chronic Normal";
+  color: #fff;
+  text-shadow: 0 0 5px rgba(0,178,255,1), 0 0 5px rgba(0,178,255,1), 0 0 5px rgba(0,178,255,1),
+         0 0 10px rgba(0,178,255,1), 0 0 15px rgba(0,178,255,1), 0 0 20px rgba(0,178,255,1),
+         0 0 25px rgba(0,178,255,1), 0 0 30px rgba(0,178,255,1), 0 0 35px rgba(0,178,255,1);
+}
+
+.blueFace {
+  background: var(--background-princ);
+}
+
+.showMost {
+  background: var(--buttons-princ);
+}
+
+.showMost:hover {
+  background: var(--buttons-hover-princ);
+}
+
+.showMost1 {
+  background: linear-gradient(#03C2EA, #81CDE3, #A8F8F6);
+  list-style: square;
+  list-style-position: inside;
+  padding: .5em;
+  margin: .4em .7em;
+}
+
+
+@font-face {
+  font-family: 'No Hemos venido';
+  src: url(acelera2.ttf);
+}
+
+.cheetosDeQuesoOne {
+  text-align: center;
+}
+
+.cheetosDeQuesoOne a {
+  color: #fff;
+  font-family: 'No Hemos venido';
+  font-size: 32px;
+
+}
+
+.cheetosDeQuesoOne a:hover {
+  color: red;
+  text-shadow: 1px 1px 12px red;
+}
+
+
+
+/*======================================================================================================
+							MEDIA QUERIES (Pantalla Grande): 			Large (lg)
+======================================================================================================*/
+
+@media(min-width: 1200px){
+   .colSect_lg_12{width: 100%;}            /* 12/12 */
+   .colSect_lg_11{width: 91.66666667%;}    /* 11/12 */
+   .colSect_lg_10{width: 83.33333333%;}    /* 10/12 */
+   .colSect_lg_9{width: 75%;}              /* 9/12 */
+   .colSect_lg_8{width: 66.66666667%;}     /* 8/12 */
+   .colSect_lg_7{width: 58.33333333%;}     /* 7/12 */
+   .colSect_lg_6{width: 50%;}              /* 6/12 */
+   .colSect_lg_5{width: 41.66666667%;}     /* 5/12 */
+   .colSect_lg_4{width: 33.33333333%;}     /* 4/12 */
+   .colSect_lg_3{width: 25%;}              /* 3/12 */
+   .colSect_lg_2{width: 16.66666667%;}     /* 2/12 */
+   .colSect_lg_1{width: 8.33333333%;}      /* 1/12 */
+   .colSect_lg_0{display: none;}	        /* Ocultar fila */
+}
+
+
+
+
+/*===========================================================================================
+							MEDIA QUERIES: (Pantalla Mediana): 			Medium (md)
+===========================================================================================*/
+
+@media(max-width: 1199px) and (min-width: 992px){
+  .colSect_md_12{width: 100%;}
+  .colSect_md_11{width: 91.66666667%;}
+  .colSect_md_10{width:Sect 83.33333333%;}
+  .colSect_md_9{width: 75%;}
+  .colSect_md_8{width: 66.66666667%;}
+  .colSect_md_7{width: 58.33333333%;}
+  .colSect_md_6{width: 50%;}
+  .colSect_md_5{width: 41.66666667%;}
+  .colSect_md_4{width: 33.33333333%;}
+  .colSect_md_3{width: 25%;}
+  .colSect_md_2{width: 16.66666667%;}
+  .colSect_md_1{width: 8.33333333%;}
+  .colSect_md_0{display: none;}
+}
+
+
+
+
+/*===========================================================================================
+							MEDIA QUERIES: (Pantalla Pequeña): 			Small (sm)
+===========================================================================================*/
+
+@media(max-width: 991px) and (min-width: 768px){
+  .colSect_sm_12{width: 100%;}
+  .colSect_sm_11{width: 91.66666667%;}
+  .colSect_sm_10{width: 83.33333333%;}
+  .colSect_sm_9{width: 75%;}
+  .colSect_sm_8{width: 66.66666667%;}
+  .colSect_sm_7{width: 58.33333333%;}
+  .colSect_sm_6{width: 50%;}
+  .colSect_sm_5{width:   41.66666667%;}
+  .colSect_sm_4{width: 33.33333333%;}
+  .colSect_sm_3{width: 25%;}
+  .colSect_sm_2{width: 16.66666667%;}
+  .colSect_sm_1{width: 8.33333333%;}
+  .colSect_sm_0{display: none;}
+}
+
+
+
+
+/*===========================================================================================
+						MEDIA QUERIES: (Pantalla Extra Pequeña): 		Extra Small (xs)
+===========================================================================================*/
+
+@media(max-width: 767px){
+  .colSect_xs_12{width: 100%;}
+  .colSect_xs_11{width: 91.66666667%;}
+  .colSect_xs_10{width: 83.33333333%;}
+  .colSect_xs_9{width: 75%;}
+  .colSect_xs_8{width: 66.66666667%;}
+  .colSect_xs_7{width: 58.33333333%;}
+  .colSect_xs_6{width: 50%;}
+  .colSect_xs_5{width: 41.66666667%;}
+  .colSect_xs_4{width: 33.33333333%;}
+  .colSect_xs_3{width: 25%;}
+  .colSect_xs_2{width: 16.66666667%;}
+  .colSect_xs_1{width: 8.33333333%;}
+  .colSect_xs_0{display: none;}
+}
+
+
+
+
+
+/*======================================================================================================
+					Excepciones a los estilos anteriores en función del dispositivo
+======================================================================================================*/
+
+@media(min-width: 1200px){
+  .onmytrails {
+    width: 400px;
+    height: 400px;
+  }
+}
+
+/* 1°: Cuando la página se abre en un dispositivo de resolución mediana, la imagen de la nota principal cambiará su ancho al indicado en la siguiente regla. */
+@media(max-width: 1199px) and (min-width: 992px){
+  #content article p img{
+    width: 40%;
+  }
+  .onmytrails {
+    width: 350px;
+    height: 400px;
+  }
+}
+
+/* 2°: Cuando la página se abre en un dispositivo de resolución pequeña, la imagen de la nota principal cambiará su ancho al indicado en la siguiente regla. */
+@media(max-width: 991px) and (min-width: 768px){
+  #content article p img{
+    width: 70%;
+    margin-bottom: 8px;
+  }
+  .onmytrails {
+    width: 100px;
+    height: 400px;
+  }
+}
+
+/* 2°: Cuando la página se abre en un dispositivo de resolución extra pequeña, la imagen de la nota principal cambiará su ancho al indicado en la siguiente regla.
+		b. Además, cuando se abre en resolución extra pequeña, los iconos de redes sociales (irs) tienen un ancho del 30%, relativo a su contenedor.
+		c. Con la misma resolucón, los "irs" se centran en su contenedor. */
+@media(max-width: 767px){
+  #content article p img{
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  [src*="irs"]{
+    width:30%;
+  }
+
+  header .iconsCont{
+    text-align: center;
+  }
+
+  ul li ul {position: absolute; width: 100%; z-index: ; display: ;}
+  /*ul li:hover ul{display: block}*/
+  .onmytrails {
+    width: 270px;
+    height: 300px;
+  }
+  .texto {
+    padding: 0 1.5em 0 1.5em;
+  }
+}
+
+/* box-sizing: border-box; indica que el borde y el relleno es parte de el tamaño de la caja de los elementos 
