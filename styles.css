@@ -302,6 +302,14 @@ summary {
   color: #79F0F7;
 }
 
+.devil {
+  color: red;
+}
+
+.herBeautiful {
+  color: pink;
+}
+
 .soAmI, .vrsG, .aOneP {
   /*font-family: 'Lucida Calligraphy';*/
   /*font-size: 14px;*/
